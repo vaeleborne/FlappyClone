@@ -44,20 +44,20 @@ public:
 	//Player class to call this when it 'dies' 
 	void PlayerDeadEvent();
 
+	//Sets the render window that our controller will use
 	void SetRenderWindow(sf::RenderWindow* window);
 
+	//Displays our title text
 	void DisplayTitleText();
 
+	//Displays our game over text
 	void DisplayGameOverText();
-
-
 
 	//Gets current gamestate
 	GAMESTATE GetGameState();
 
 	//Sets the current gamestate
 	void SetGameState(GAMESTATE gamestate);
-
 
 private:
 	std::vector<std::shared_ptr<GameObject> > m_observers;
@@ -80,7 +80,6 @@ private:
 	sf::Text m_gameover_body;
 	sf::Text m_gameover_return;
 	
-
 	sf::RenderWindow* m_window;
 
 	//Private constructor to prevent instantiation

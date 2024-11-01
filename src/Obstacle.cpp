@@ -58,7 +58,7 @@ void Obstacle::OnNotifyEvent(const std::string& ev)
 	}
 }
 
-void Obstacle::Move(sf::RenderWindow* window)
+void Obstacle::Move()
 {
     float new_x_location = m_upper_location.GetX() + m_velocity.x;
    
@@ -69,7 +69,7 @@ void Obstacle::Move(sf::RenderWindow* window)
     bool out_bounds[4] = { false, false, false, false };
 
     //Only need to check x of one rectangle as both move at the same rate!
-	if (newm_upper_location.IsInBounds(window, out_bounds))
+	if (newm_upper_location.IsInBounds(m_window, out_bounds))
 	{
 		m_upper_location = newm_upper_location;
         m_lower_location = newm_lower_location;
@@ -101,7 +101,7 @@ void Obstacle::Update()
 {
     if(!_remove)
     {
-        this->Move(m_window);
+        this->Move();
     }
     else
     { 

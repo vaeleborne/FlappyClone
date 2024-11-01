@@ -26,7 +26,6 @@ public:
 protected:
 	Coordinate m_location;
 	sf::FloatRect m_bounding_box;
-
 };
 
 #endif

@@ -3,9 +3,10 @@
 #include <random>
 #include <ctime>
 
+/*Singleton to get random numbers*/
 class RandomNumberGenerator
 {
-    public:
+public:
     RandomNumberGenerator(const RandomNumberGenerator&) = delete;
     RandomNumberGenerator& operator=(const RandomNumberGenerator&) = delete;
 
@@ -13,7 +14,7 @@ class RandomNumberGenerator
 
     int GetIntInRangeInclusive(int min, int max);
 
-    private:
+private:
     RandomNumberGenerator();
 
 };

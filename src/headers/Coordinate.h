@@ -26,9 +26,7 @@ public:
 	//SETTERS
 	void SetX(int x) { m_location.x = x; }
 	void SetY(int y) { m_location.y = y; }
-
-
-
+	
 private:
 	sf::Vector2i m_location;
 };

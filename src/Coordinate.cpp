@@ -46,7 +46,6 @@ bool Coordinate::IsInBounds(sf::RenderWindow* window, bool out_of_bounds[4])
 		in_bounds = false;
 		out_of_bounds[BOTTOM] = true;
 	}
-
-
+	
 	return in_bounds;
 }

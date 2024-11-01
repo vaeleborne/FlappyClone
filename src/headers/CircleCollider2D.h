@@ -15,7 +15,6 @@ public:
 	//sf::FloatRect GetBoundingBox() const override;
 
 private:
-	float m_radius;
-	
+	float m_radius;	
 };
 #endif

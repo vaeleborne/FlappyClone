@@ -13,21 +13,17 @@ class Player : public GameObject
 public:
 	Player(Coordinate starting_position, float radius, sf::RenderWindow* window, sf::Color color = sf::Color::Yellow);
 
-	//Updates the player object, updates location, collider, velocity, etc
-	void Update();
-
 	//Changes the player's velocity so that it 'jumps', the update function will adjust velocity back to rate of gravity
 	void Jump();
 
-	//Draws the player to the render window
-	void Draw();
-
-
-
 	//OVERRIDES
-
 	int GetPositionX() override {return m_location.GetX();}
 
+	//Updates the player object, updates location, collider, velocity, etc
+	void Update() override;
+
+	//Draws the player to the render window
+	void Draw() override;
 
     bool IsColliding(Collider* other) override;
 
@@ -38,8 +34,6 @@ public:
 
 	//Reset the position and velocity
 	void Reset() override;
-
-	
 
 private:
 	//MEMBER VARIABLES
