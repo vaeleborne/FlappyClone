@@ -5,6 +5,7 @@
 #include "CircleCollider2D.h"
 #include "GameObject.h"
 #include "GameController.h"
+#include "SoundController.h"
 
 
 //Player game object

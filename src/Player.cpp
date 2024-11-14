@@ -20,6 +20,7 @@ Player::Player(Coordinate starting_position, float radius, sf::RenderWindow* win
 void Player::Jump()
 {
 	m_velocity.y = -2.f * m_gravity;
+	SoundController::GetInstance().PlaySound("jump");
 }
 
 void Player::Draw()
@@ -86,6 +87,8 @@ void Player::Move(sf::RenderWindow* window)
 		}
 		else if (out_bounds[Coordinate::BOTTOM])
 		{
+			SoundController::GetInstance().PlaySound("gameover");
+			SoundController::GetInstance().StopMusic("background");
 			GameController::GetInstance().PlayerDeadEvent();
 		}
 	}
