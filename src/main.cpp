@@ -13,17 +13,9 @@
 	AUTHOR: Dylan Morgan
 
 
-	UPDATED on: 10/30/24
+	UPDATED on: 11/14/24
 
 	FUTURE GOALS:
-		Create a SoundController driver/singleton 
-		Use soundcontroller to implement sound effects on scoring and dying
-		Use soundcontroller to play background musice
-
-		Add a high score variable to the game controller
-		Update gameover text to show high score and if we set a new one
-		At first this will only be tracked for each run of the program
-
 		Use a decorator to have file input and output (with encryption)
 		Save and load high score from a file
 
