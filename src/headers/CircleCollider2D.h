@@ -7,13 +7,9 @@ only needs a postion and radius to create. Note the collider is a square!*/
 class CircleCollider2D : public Collider
 {
 public:
-	//bool IsColliding(Collider* other) const override;
 	CircleCollider2D(Coordinate position, float radius);
 	CircleCollider2D();
-
 	void Update(Coordinate new_position)  override;
-	//sf::FloatRect GetBoundingBox() const override;
-
 private:
 	float m_radius;	
 };

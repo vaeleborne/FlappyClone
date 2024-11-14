@@ -13,11 +13,11 @@ GamestateMachine& GamestateMachine::GetInstance()
 }
 
 void GamestateMachine::RunGame()
-{
+{	
+	//Creating our renderwindow
     sf::RenderWindow window(sf::VideoMode(800, 400), "Flappy Clone");
 	window.setFramerateLimit(30);
 	sf::Event ev;
-
 
 	auto player = std::make_shared<Player>(Coordinate(50, 190), 10.f, &window);
 
@@ -143,9 +143,14 @@ void GamestateMachine::RunPlayState(sf::RenderWindow* window)
             m_spawn_clock.restart();
         }
 
+		//Clearing the window to Blue
 		window->clear(sf::Color::Blue);
-		
+
+		//Calling our controllers draw event
 		game_controller.DrawEvent();
+
+		//DRAWING UI COMPONENTS (TOP LEVEL)
+		game_controller.GetInstance().DisplayScoreText();
 
 		window->display();
 	}
@@ -155,7 +160,6 @@ void GamestateMachine::RunGameOver(sf::RenderWindow* window)
     sf::Event ev;
 	while (window->isOpen())
 	{
-
 		while(window->pollEvent(ev))
 		{
 			if(ev.type == sf::Event::Closed || ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape)

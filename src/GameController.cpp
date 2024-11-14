@@ -43,10 +43,7 @@ GameController::GameController()
 
     m_gameover_head.setCharacterSize(42);
     m_gameover_body.setCharacterSize(30);
-    m_gameover_return.setCharacterSize(30);
-
-    
-   
+    m_gameover_return.setCharacterSize(30); 
 }
 
 GameController& GameController::GetInstance()
@@ -76,7 +73,7 @@ void GameController::Reset()
     m_observers.clear();
     m_observers.push_back(temp);
     m_score = 0;
-    UpdateScoreText(m_score);
+    UpdateScoreText();
 }
 
 
@@ -95,8 +92,6 @@ void GameController::NotifyPlayer(const std::string& player_specific_event)
 void GameController::RemoveObserver(const std::shared_ptr<GameObject>& observer)
 { 
      m_pending_removal.push_back(observer);
-
-    //m_observers.erase(std::remove(m_observers.begin(), m_observers.end(), observer));
 }
 
 void GameController::NotifyObservers(const std::string& ev)
@@ -109,8 +104,10 @@ void GameController::NotifyObservers(const std::string& ev)
 
 void GameController::UpdateEvent()
 {
+    //Sends the "update" command to all of our observers
     NotifyObservers("update");
 
+    //Checks to see if we have any game objects that need to be removed, removes if needed
     if(!m_pending_removal.empty())
     {
          for (const auto& observer : m_pending_removal) {
@@ -119,8 +116,8 @@ void GameController::UpdateEvent()
             m_pending_removal.clear(); // Clear the removal list
     }
 
+    //Find our player object for use with collision detection
     std::shared_ptr<GameObject> player_object;
-
     for (auto o : m_observers)
     {
         if(o->IsPlayer)
@@ -129,34 +126,36 @@ void GameController::UpdateEvent()
         }
     }
 
+    //Collision detection phase
     for (auto o : m_observers)
-    {
+    {   
         if(!o->IsPlayer)
-        {
+        {   
             if(o->IsColliding(player_object->GetCollider()))
             {
                 PlayerDeadEvent();
                 break;  
             }
+            //If the game object is not collinding with the player, check to see if it is behind the player for score keeping
             else if (o->GetPositionX() < player_object->GetPositionX())
             {
                 if(!o->Scored)
                 {   
                     m_score += 1;
                     o->Scored = true;
-                    UpdateScoreText(m_score);
+                    UpdateScoreText();
                 }
             }
         }
     }    
 }
 
-void GameController::DrawEvent()
-{
-    NotifyObservers("draw");
 
-    //UI COMPONENTS
-    m_window->draw(m_score_text);
+
+void GameController::DrawEvent()
+{ 
+    //Sends the "draw" event command to our observers
+    NotifyObservers("draw");
 }
 
 void GameController::SetGameState(GAMESTATE gamestate)
@@ -181,23 +180,28 @@ void GameController::SetRenderWindow(sf::RenderWindow* window)
     m_window = window;
 }
 
-void GameController::UpdateScoreText(int score)
+void GameController::UpdateScoreText()
 {
+    //Updates the string of our Score text
     std::stringstream new_text;
-    new_text << "Score: " << score;
+    new_text << "Score: " << m_score;
     m_score_text.setString(new_text.str());
+}
+
+void GameController::DisplayScoreText()
+{
+    m_window->draw(m_score_text);
 }
 
 
 void GameController::DisplayTitleText()
 {
-    
+    //Setting positions of our texts
     float mid_y = m_window->getSize().y / 2;
-
     m_title_head.setPosition((m_window->getSize().x / 2) - (m_title_head.getGlobalBounds().getSize().x / 2), mid_y - 50 - m_title_head.getGlobalBounds().getSize().y);
     m_title_body.setPosition((m_window->getSize().x / 2) - (m_title_body.getGlobalBounds().getSize().x / 2), mid_y - 25 + m_title_head.getGlobalBounds().getSize().y);
 
-
+    //Drawing text to window
     m_window->draw(m_title_head);
     m_window->draw(m_title_body);
 
@@ -205,19 +209,19 @@ void GameController::DisplayTitleText()
 
 void GameController::DisplayGameOverText()
 {
+    //Setting our body text string
     std::stringstream str;
     str << "Final Score: " << m_score;
     m_gameover_body.setString(str.str());
 
+    //Setting the positions of our texts
     float mid_y = m_window->getSize().y / 2;
-
     m_gameover_head.setPosition((m_window->getSize().x / 2) - (m_gameover_head.getGlobalBounds().getSize().x / 2), mid_y - 50 - m_gameover_head.getGlobalBounds().getSize().y);
     m_gameover_body.setPosition((m_window->getSize().x / 2) - (m_gameover_body.getGlobalBounds().getSize().x / 2), mid_y - 25 + m_gameover_head.getGlobalBounds().getSize().y);
     m_gameover_return.setPosition((m_window->getSize().x / 2) - (m_gameover_return.getGlobalBounds().getSize().x / 2), mid_y - 10 + m_gameover_head.getGlobalBounds().getSize().y + m_gameover_body.getGlobalBounds().getSize().y);
 
+    //Drawing to window
     m_window->draw(m_gameover_head);
     m_window->draw(m_gameover_body);
     m_window->draw(m_gameover_return);
-
-
 }

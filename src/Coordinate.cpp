@@ -25,6 +25,7 @@ bool Coordinate::IsInBounds(sf::RenderWindow* window, bool out_of_bounds[4])
 	bool in_bounds = true;
 	sf::Vector2u window_bounds = window->getSize();
 
+	//Checking X boundaries
 	if (m_location.x < 0)
 	{
 		in_bounds = false;
@@ -36,6 +37,7 @@ bool Coordinate::IsInBounds(sf::RenderWindow* window, bool out_of_bounds[4])
 		out_of_bounds[RIGHT] = true;
 	}
 
+	//Checking Y boundaries
 	if (m_location.y < 0)
 	{
 		in_bounds = false;
@@ -46,6 +48,6 @@ bool Coordinate::IsInBounds(sf::RenderWindow* window, bool out_of_bounds[4])
 		in_bounds = false;
 		out_of_bounds[BOTTOM] = true;
 	}
-	
+
 	return in_bounds;
 }

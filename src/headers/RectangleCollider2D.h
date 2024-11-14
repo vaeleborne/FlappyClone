@@ -17,6 +17,5 @@ public:
 private:
 	ORIGIN m_origin;
 	sf::Vector2i m_size;
-
 };
 #endif
