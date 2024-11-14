@@ -30,7 +30,6 @@ bool SoundController::AddSound(const std::string& key,  const std::string& fileP
 
     //Add sound to map
     m_sound_bank[key] = sound;
-
     return true;
 }
 

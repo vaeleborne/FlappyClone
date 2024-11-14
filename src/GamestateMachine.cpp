@@ -88,13 +88,12 @@ void GamestateMachine::RunPlayState(sf::RenderWindow* window)
 	
 	//Loading sounds
 	SoundController::GetInstance().AddSound("success", "assets/success.wav");
-	SoundController::GetInstance().AddSound("gameover", "assets/gameover.wav");
 	SoundController::GetInstance().AddSound("jump", "assets/jump.wav");
 	SoundController::GetInstance().AddMusic("background", "assets/background.wav");
 	
 	//Changing volumes
 	SoundController::GetInstance().SetMusicVolume("background", 20.0f);
-	SoundController::GetInstance().SetSoundVolume("gameover", 30.0f);
+	
 
 	//Playing music
 	SoundController::GetInstance().PlayMusic("background");
@@ -177,6 +176,12 @@ void GamestateMachine::RunPlayState(sf::RenderWindow* window)
 void GamestateMachine::RunGameOver(sf::RenderWindow* window)
 {
 	SoundController::GetInstance().ClearBuffers();
+
+	SoundController::GetInstance().AddSound("gameover", "assets/gameover.wav");
+	SoundController::GetInstance().SetSoundVolume("gameover", 30.0f);
+
+	SoundController::GetInstance().PlaySound("gameover");
+
     sf::Event ev;
 	while (window->isOpen())
 	{

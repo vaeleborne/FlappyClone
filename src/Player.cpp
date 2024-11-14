@@ -87,7 +87,6 @@ void Player::Move(sf::RenderWindow* window)
 		}
 		else if (out_bounds[Coordinate::BOTTOM])
 		{
-			SoundController::GetInstance().PlaySound("gameover");
 			SoundController::GetInstance().StopMusic("background");
 			GameController::GetInstance().PlayerDeadEvent();
 		}
