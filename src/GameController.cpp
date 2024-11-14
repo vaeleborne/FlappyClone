@@ -136,7 +136,6 @@ void GameController::UpdateEvent()
         {   
             if(o->IsColliding(player_object->GetCollider()))
             {
-                SoundController::GetInstance().PlaySound("gameover");
                 SoundController::GetInstance().StopMusic("background");
                 PlayerDeadEvent();
                 break;  
