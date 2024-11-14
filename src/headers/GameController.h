@@ -74,11 +74,15 @@ private:
 	//Our gamestate
 	GAMESTATE m_current_state;
 
-	int m_score = 0; 
+	int m_score;
+	int m_high_score;
+
+	bool m_set_new_high_score;
 	sf::Font m_font;
 
 	//Score Text
 	sf::Text m_score_text; 
+	sf::Text m_high_score_text;
 
 	//Title Text
 	sf::Text m_title_head;

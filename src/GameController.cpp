@@ -3,6 +3,11 @@
 GameController::GameController()
 {
     m_score = 0;
+
+    //TODO LOAD VALUE FROM FILE
+    m_high_score = 0;
+
+    m_set_new_high_score = false;
     
     if(!m_font.loadFromFile("./assets/font.ttf"))
     {
@@ -15,6 +20,12 @@ GameController::GameController()
     m_score_text.setCharacterSize(24); //pixels!
     m_score_text.setFillColor(sf::Color::White);
     m_score_text.setPosition(15,5);
+
+    m_high_score_text.setFont(m_font);
+    m_high_score_text.setString("High Score: 0");
+    m_high_score_text.setCharacterSize(24);
+    m_high_score_text.setFillColor(sf::Color::White);
+    m_high_score_text.setPosition(15, 30);
 
     //CREATING OUR TITLE TEXTS
     m_title_head.setFont(m_font);
@@ -75,6 +86,7 @@ void GameController::Reset()
     m_observers.clear();
     m_observers.push_back(temp);
     m_score = 0;
+    m_set_new_high_score = false;
     UpdateScoreText();
 }
 
@@ -183,19 +195,43 @@ void GameController::PlayerDeadEvent()
 void GameController::SetRenderWindow(sf::RenderWindow* window)
 {
     m_window = window;
+    m_high_score_text.setPosition(m_window->getSize().x - m_high_score_text.getLocalBounds().width - 15, 5);
 }
 
 void GameController::UpdateScoreText()
 {
     //Updates the string of our Score text
-    std::stringstream new_text;
-    new_text << "Score: " << m_score;
-    m_score_text.setString(new_text.str());
+    std::stringstream new_score_text;
+    new_score_text << "Score: " << m_score;
+    m_score_text.setString(new_score_text.str());
+
+    if(m_score > m_high_score)
+    {
+        m_set_new_high_score = true;
+        m_high_score = m_score;
+        std::stringstream new_high_text;
+        new_high_text << "High Score: " << m_high_score;
+
+        //Checks if the new high score has more digits, if so we need to shift the position to accomadate
+        if(new_high_text.str().size() > m_high_score_text.getString().getSize())
+        {
+            m_high_score_text.setString(new_high_text.str());
+
+            m_high_score_text.setPosition(m_window->getSize().x - m_high_score_text.getLocalBounds().width - 15, 5);
+        }
+        else
+        {
+            m_high_score_text.setString(new_high_text.str());
+        }
+
+        
+    }
 }
 
 void GameController::DisplayScoreText()
 {
     m_window->draw(m_score_text);
+    m_window->draw(m_high_score_text);
 }
 
 
@@ -216,14 +252,23 @@ void GameController::DisplayGameOverText()
 {
     //Setting our body text string
     std::stringstream str;
-    str << "Final Score: " << m_score;
+    
+    
+    if(m_set_new_high_score == true)
+    {
+        str << "New High Score: " << m_high_score;
+    }
+    else
+    {
+        str << "Final Score: " << m_score << "\tHigh Score: " << m_high_score;
+    } 
     m_gameover_body.setString(str.str());
 
     //Setting the positions of our texts
     float mid_y = m_window->getSize().y / 2;
-    m_gameover_head.setPosition((m_window->getSize().x / 2) - (m_gameover_head.getGlobalBounds().getSize().x / 2), mid_y - 50 - m_gameover_head.getGlobalBounds().getSize().y);
-    m_gameover_body.setPosition((m_window->getSize().x / 2) - (m_gameover_body.getGlobalBounds().getSize().x / 2), mid_y - 25 + m_gameover_head.getGlobalBounds().getSize().y);
-    m_gameover_return.setPosition((m_window->getSize().x / 2) - (m_gameover_return.getGlobalBounds().getSize().x / 2), mid_y - 10 + m_gameover_head.getGlobalBounds().getSize().y + m_gameover_body.getGlobalBounds().getSize().y);
+    m_gameover_head.setPosition((m_window->getSize().x / 2) - (m_gameover_head.getGlobalBounds().getSize().x / 2), mid_y - 80 - m_gameover_head.getGlobalBounds().getSize().y);
+    m_gameover_body.setPosition((m_window->getSize().x / 2) - (m_gameover_body.getGlobalBounds().getSize().x / 2), mid_y - 55 + m_gameover_head.getGlobalBounds().getSize().y);
+    m_gameover_return.setPosition((m_window->getSize().x / 2) - (m_gameover_return.getGlobalBounds().getSize().x / 2) , m_window->getSize().y - 50); //+ m_gameover_head.getGlobalBounds().getSize().y + m_gameover_body.getGlobalBounds().getSize().y);
 
     //Drawing to window
     m_window->draw(m_gameover_head);
