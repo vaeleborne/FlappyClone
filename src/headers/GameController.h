@@ -4,6 +4,7 @@
 #include <sstream>
 #include "GameObject.h"
 #include "Player.h"
+#include "SoundController.h"
 
 /*A singleton that is our core game controller, is responsible
 for making game objects (its observers) update, draw to screen, etc.*/

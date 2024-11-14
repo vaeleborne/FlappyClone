@@ -2,6 +2,7 @@
 #define GAMESTATE_MACHINE_H
 #include "Player.h"
 #include "Obstacle.h"
+#include "SoundController.h"
 
 class GamestateMachine
 {
@@ -19,6 +20,8 @@ class GamestateMachine
     private: 
     //Private constructor as this is a singleton
     GamestateMachine();         
+
+    bool m_playstate_initialized;
 
     //VARIABLES FOR TIMING SPAWNING
 

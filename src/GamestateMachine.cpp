@@ -4,6 +4,8 @@ GamestateMachine::GamestateMachine()
 {
 	//ADJUST TO SPAWN OBSTACLES AT A DIFFERENT RATE (in seconds)
     m_spawn_time = 2.5f;
+
+	m_playstate_initialized = false;
 }
 
 GamestateMachine& GamestateMachine::GetInstance()
@@ -25,6 +27,7 @@ void GamestateMachine::RunGame()
 	game_controller.SetRenderWindow(&window);
 	game_controller.AddObserver(player);
 	game_controller.SetGameState(GameController::GAMESTATE::MENU);
+
 	
 
 	while(window.isOpen())
@@ -52,6 +55,7 @@ void GamestateMachine::RunGame()
 
 void GamestateMachine::RunMainMenu(sf::RenderWindow* window)
 {
+	SoundController::GetInstance().ClearBuffers();
     sf::Event ev;
 	GameController& game_controller = GameController::GetInstance();
 
@@ -77,9 +81,23 @@ void GamestateMachine::RunMainMenu(sf::RenderWindow* window)
 }
 void GamestateMachine::RunPlayState(sf::RenderWindow* window)
 {
+	SoundController::GetInstance().ClearBuffers();
     sf::Event ev;
 
 	GameController& game_controller = GameController::GetInstance();
+	
+	//Loading sounds
+	SoundController::GetInstance().AddSound("success", "assets/success.wav");
+	SoundController::GetInstance().AddSound("gameover", "assets/gameover.wav");
+	SoundController::GetInstance().AddSound("jump", "assets/jump.wav");
+	SoundController::GetInstance().AddMusic("background", "assets/background.wav");
+	
+	//Changing volumes
+	SoundController::GetInstance().SetMusicVolume("background", 20.0f);
+	SoundController::GetInstance().SetSoundVolume("gameover", 30.0f);
+
+	//Playing music
+	SoundController::GetInstance().PlayMusic("background");
 
 	//game_controller.AddObserver(std::make_shared<Obstacle>(Obstacle::Instantiate(window)));
 
@@ -154,9 +172,11 @@ void GamestateMachine::RunPlayState(sf::RenderWindow* window)
 
 		window->display();
 	}
+	
 }
 void GamestateMachine::RunGameOver(sf::RenderWindow* window)
 {
+	SoundController::GetInstance().ClearBuffers();
     sf::Event ev;
 	while (window->isOpen())
 	{

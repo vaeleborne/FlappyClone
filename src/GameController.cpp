@@ -44,6 +44,8 @@ GameController::GameController()
     m_gameover_head.setCharacterSize(42);
     m_gameover_body.setCharacterSize(30);
     m_gameover_return.setCharacterSize(30); 
+
+    
 }
 
 GameController& GameController::GetInstance()
@@ -104,6 +106,7 @@ void GameController::NotifyObservers(const std::string& ev)
 
 void GameController::UpdateEvent()
 {
+
     //Sends the "update" command to all of our observers
     NotifyObservers("update");
 
@@ -133,6 +136,8 @@ void GameController::UpdateEvent()
         {   
             if(o->IsColliding(player_object->GetCollider()))
             {
+                SoundController::GetInstance().PlaySound("gameover");
+                SoundController::GetInstance().StopMusic("background");
                 PlayerDeadEvent();
                 break;  
             }
@@ -141,6 +146,7 @@ void GameController::UpdateEvent()
             {
                 if(!o->Scored)
                 {   
+                    SoundController::GetInstance().PlaySound("success");
                     m_score += 1;
                     o->Scored = true;
                     UpdateScoreText();
