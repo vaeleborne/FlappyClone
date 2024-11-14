@@ -10,6 +10,7 @@ for making game objects (its observers) update, draw to screen, etc.*/
 class GameController
 {
 public:
+	//Enum of possible game states
 	enum GAMESTATE {MENU, PLAY, GAME_OVER};
 
 	//Delete copy constructor and assignment operator to prevent copies
@@ -53,6 +54,9 @@ public:
 	//Displays our game over text
 	void DisplayGameOverText();
 
+	//Displays our score text
+	void DisplayScoreText();
+
 	//Gets current gamestate
 	GAMESTATE GetGameState();
 
@@ -60,9 +64,13 @@ public:
 	void SetGameState(GAMESTATE gamestate);
 
 private:
+	//Contains our observers that we can send event strings to
 	std::vector<std::shared_ptr<GameObject> > m_observers;
+
+	//Conains gameobjects we need to remove, used to allow a cleaning phase and avoid issues of removing them while they are being used
 	std::vector<std::shared_ptr<GameObject> > m_pending_removal;
 
+	//Our gamestate
 	GAMESTATE m_current_state;
 
 	int m_score = 0; 
@@ -80,11 +88,13 @@ private:
 	sf::Text m_gameover_body;
 	sf::Text m_gameover_return;
 	
+	//Our render window
 	sf::RenderWindow* m_window;
 
 	//Private constructor to prevent instantiation
 	GameController();
 
-	void UpdateScoreText(int score);
+	//Updates our score text based on our current score 
+	void UpdateScoreText();
 };
 #endif

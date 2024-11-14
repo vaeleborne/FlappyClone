@@ -25,8 +25,10 @@ public:
 	//Draws the player to the render window
 	void Draw() override;
 
+	//Checks for collision against another collider
     bool IsColliding(Collider* other) override;
 
+	//Gets the player's collider
 	Collider* GetCollider() override {return &m_collider;}
 
 	//Event handling for game controller events

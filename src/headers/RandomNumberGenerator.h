@@ -16,7 +16,7 @@ public:
 
 private:
     RandomNumberGenerator();
-
+    
 };
 
 #endif
