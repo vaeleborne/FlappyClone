@@ -1,2 +1,8 @@
-.vscode/launch.json
-.vscode/settings.json
+.vscode/
+.vs/
+bin/
+**/Debug/
+**/x64/
+*.
+!.gitignore
+
